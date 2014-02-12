@@ -1,0 +1,4 @@
+jrm-unamur-cobra:
+    resource: "@JrmUnamurCobraBundle/Controller/"
+    type:     annotation
+    prefix:   /

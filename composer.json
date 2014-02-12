@@ -1,0 +1,22 @@
+{
+    "name": "jrm-unamur/cobra-bundle",
+    "description": "Cobra bundle",
+    "keywords": ["Cobra", "reading assistant", "language learning", "sandbox"],
+    "homepage": "http://tice.det.fundp.ac.be/cobra/",
+    "type": "claroline-plugin",
+    "author": [
+        {
+            "name": "Jean-Roch Meurisse",
+            "email": "jean-roch.meurisse@unamur.be",
+            "homepage": "http://directory.unamur.be/staff/jmeuriss"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.1",
+        "claroline/core-bundle": "~2.9"
+    },
+    "autoload": {
+        "psr-0": { "JrmUnamur\\CobraBundle": ""}
+    },
+    "target-dir": "JrmUnamur/CobraBundle"
+}
