@@ -1,0 +1,18 @@
+{% block content %}
+    <h1>{{ 'New CoBRA viewer' | trans }}</h1>
+
+    <form action="{{ path('claro_resource_create', {resourceType:'unamur_cobra_viewer', parentId: '_nodeId'}) }}"
+          method="post" {{ form_enctype(form) }} id="generic-form" class="form-horizontal">
+        {{ form_row(form.name) }}
+        {{ form_row(form.language) }}
+        <div style='...'>
+            {{ form_rest(form) }}
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'cancel' | trans({}, 'platform') }}</button>
+            <button type="submit" class="btn btn-primary">{{ 'ok' | trans({}, 'platform') }}</button>
+        </div>
+
+    </form>
+{% endblock %}

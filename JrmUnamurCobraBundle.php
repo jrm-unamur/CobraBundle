@@ -13,7 +13,7 @@ class JrmUnamurCobraBundle extends PluginBundle
 
         if (file_exists($routingFile = __DIR__ . '/Resources/config/routing.yml'))
         {
-            $config->addRoutingResource($routingFile, null, 'icap_cobra');
+            $config->addRoutingResource($routingFile, null, 'cobra');
         }
         return $config;
     }

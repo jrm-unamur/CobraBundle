@@ -8,6 +8,7 @@
 
 namespace JrmUnamur\CobraBundle\Entity;
 
+use JrmUnamur\CobraBundle\Lib\ElexRemoteService;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -205,7 +206,15 @@ class CobraCollection
      */
     public function getRemoteTexts()
     {
-        return $this->remoteTexts;
+        return ElexRemoteService::getRemoteTextList($this->getRemoteId());
+    }
+
+    public function getRemoteData()
+    {
+        $params = array( 'id_collection' => $this->remoteId );
+        $remoteCollection = ElexRemoteService::call( 'getCollection', $params );
+        $this->setRemoteName( $remoteCollection->label );
+        $this->setName( $remoteCollection->label );
     }
 
     /**
@@ -235,7 +244,7 @@ class CobraCollection
     /**
      * @return mixed
      */
-    public function getVisible()
+    public function isVisible()
     {
         return $this->visible;
     }

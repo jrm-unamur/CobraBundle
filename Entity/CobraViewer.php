@@ -23,7 +23,7 @@ class CobraViewer extends AbstractResource
     /**
      * @ORM\OneToMany(
      *      targetEntity="JrmUnamur\CobraBundle\Entity\CobraCollection",
-     *      mappedBy="cobraViewer"
+     *      mappedBy="cobraViewer")
      */
     protected $cobraCollections;
 
@@ -275,6 +275,14 @@ class CobraViewer extends AbstractResource
         return $this->translationsDisplayMode;
     }
 
-
+    public function getMaxPosition()
+    {
+        $maxPos = 0;
+        foreach( $this->cobraCollections as $collection)
+        {
+            if($collection->getPosition() > $maxPos) $maxPos = $collection->getPosition();
+        }
+        return $maxPos;
+    }
 
 } 
