@@ -10,6 +10,7 @@ namespace JrmUnamur\CobraBundle\Manager;
 
 use JrmUnamur\CobraBundle\Entity\CobraViewer;
 use JrmUnamur\CobraBundle\Entity\CobraCollection;
+use JrmUnamur\CobraBundle\Entity\CobraText;
 use JrmUnamur\CobraBundle\Repository\CobraCollectionRepository;
 use JrmUnamur\CobraBundle\Lib\ElexRemoteService;
 
@@ -40,15 +41,14 @@ class CobraViewerManager
 
     public function registerCollection(CobraCollection $collection)
     {
-        /*$collection->getRemoteData();
+        $collection->getRemoteData();
         $collection->setVisible(false);
-        $collection->setPosition($collection->getCobraViewer->getMaxPosition() + 1);*/
+        $collection->setPosition($collection->getCobraViewer()->getMaxPosition() + 1);
         $this->om->persist($collection);
 
-        /*$index = 0;
+        $index = 0;
         foreach($collection->getRemoteTexts() as $remoteText)
         {
-            //var_dump($collection->getRemoteTexts());die();
             $text = new CobraText();
             $text->setCollection($collection);
             $text->setTitle($remoteText['title']);
@@ -58,7 +58,7 @@ class CobraViewerManager
             $text->setPosition(++$index);
             $text->setVisible(true);
             $this->om->persist($text);
-        }*/
+        }
 
         $this->om->flush();
     }
@@ -95,10 +95,16 @@ class CobraViewerManager
         return $unregisteredCollections;
     }
 
-
-
-    /*public function isAlreadyRegistered(CobraCollection $collection, $remoteId)
+    public function getTextDisplay(CobraText $text)
     {
-        return $this->isAlreadyRegistered($collection, $remoteId);
-    }*/
+        $params = array('id_text' => $text->getRemoteId());
+        return ElexRemoteService::call('getFormattedText', $params);
+    }
+
+
+
+    public function isAlreadyRegistered(CobraCollection $collection)
+    {
+        return $this->collectionRepository->isAlreadyRegistered($collection);
+    }
 } 

@@ -10,12 +10,13 @@
 
 namespace JrmUnamur\CobraBundle\Entity;
 
+use JrmUnamur\CobraBundle\Entity\CobraCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class CobraText
- * @ORM\Entity(repositoryClass="Unamur\CobraBundle\Repository\CobraTextRepository")
+ * @ORM\Entity
  * @ORM\Table(name="unamur_cobra_text")
  */
 class CobraText
@@ -82,7 +83,7 @@ class CobraText
     }
 
     /**
-     * @return mixed
+     * @return CobraCollection
      */
     public function getCollection()
     {

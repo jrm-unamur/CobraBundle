@@ -25,7 +25,7 @@
         });
     });
 
-    $('.cobraCollection-change-visibility').click(function () {
+    $('.cobra-collection-change-visibility').click(function () {
 
         collectionId = $(this).attr('btn-cobra-collection-id');
         var icon = $(this).children(':first');
@@ -52,7 +52,7 @@
 
     });
 
-    $('.cobraCollection-move-up').click(function (e) {
+    $('.cobra-collection-move-up').click(function (e) {
         e.preventDefault();
         e.stopPropagation();
 
@@ -80,7 +80,7 @@
 
     });
 
-    $('.cobraCollection-move-down').click(function (e) {
+    $('.cobra-collection-move-down').click(function (e) {
         e.preventDefault();
         e.stopPropagation();
 
@@ -107,6 +107,10 @@
         });
 
 
+    });
+
+    $('.lemma').click(function (e){
+       alert("I was clicked " + $(this).attr('name'));
     });
 
 })();

@@ -25,13 +25,13 @@ class CobraCollectionRepository extends EntityRepository
                             ->getResult();
     }
 
-    public function isAlreadyRegistered(CobraCollection $collection, $remoteId)
+    public function isAlreadyRegistered(CobraCollection $collection)
     {
         $queryBuilder = $this->createQueryBuilder('cc');
         $queryBuilder->where('cc.cobraViewer = :viewer')
             ->setParameter('viewer', $collection->getCobraViewer())
             ->andWhere('cc.remoteId = :remoteId')
-            ->setParameter('remoteId', (int)$remoteId);
+            ->setParameter('remoteId', (int)$collection->getRemoteId());
         return $queryBuilder->getQuery()
             ->getOneOrNullResult();
     }

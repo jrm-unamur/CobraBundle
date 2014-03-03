@@ -103,6 +103,34 @@ class CobraViewerController extends Controller
 
     /**
      * @EXT\Route(
+     *      "/text/{cobraTextId}",
+     *      name = "unamur_cobra_show_text"
+     * )
+     * @EXT\Method("GET")
+     * @EXT\ParamConverter(
+     *      "cobraText",
+     *      class="JrmUnamurCobraBundle:CobraText",
+     *      options={"id" = "cobraTextId", "strictId" = true}
+     * )
+     * @EXT\Template("JrmUnamurCobraBundle::text.html.twig")
+     * @param CobraText $cobraText
+     *
+     * @return Response
+     */
+    public function showTextAction(CobraText $cobraText)
+    {
+        $cobraViewer = $cobraText->getCollection()->getCobraViewer();
+        $this->checkAccess('OPEN', $cobraViewer);
+
+        return array(
+            '_resource' => $cobraViewer,
+            'text' => $cobraText,
+            'display' => $this->cobraManager->getTextDisplay($cobraText)
+        );
+    }
+
+    /**
+     * @EXT\Route(
      *      "/viewer/{cobraViewerId}/register/{cobraRemoteCollectionId}",
      *      name="unamur_cobra_register_collection",
      *      requirements={"cobraViewerId" = "\d+", "cobraRemoteCollectionId" = "\d+"})
@@ -116,57 +144,23 @@ class CobraViewerController extends Controller
      * @param CobraViewer $cobraViewer
      * @param int $cobraRemoteCollectionId
      *
+     * @return Response
      */
     public function registerCollectionAction(CobraViewer $cobraViewer, $cobraRemoteCollectionId)
     {
-        $user = $this->securityContext->getToken()->getUser();
         $entityManager = $this->getDoctrine()->getManager();
-        //$translator = $this->get('translator');
-        //$flashBag = $this->get('session')->getFlashBag();
 
         $collection = new CobraCollection();
         $collection->setCobraViewer($cobraViewer);
         $collection->setRemoteId($cobraRemoteCollectionId);
         $collection->setCreator($this->securityContext->getToken()->getUser());
-        if($this->getDoctrine()
-            ->getManager()
-            ->getRepository('JrmUnamurCobraBundle:CobraCollection')
-            ->isAlreadyRegistered($collection, $cobraRemoteCollectionId))
+        if( !$this->cobraManager->isAlreadyRegistered($collection))
         {
-            $this->session->getFlashBag()->add('info', $this->translator->trans('unamur_cobra_already_registered', array(), 'unamur_cobra'));
-            return $this->redirect($this->generateUrl('cobra_viewer_resource_list', array('cobraViewerId' => $cobraViewer->getId())));
+            $this->cobraManager->registerCollection($collection);
         }
-
-        $collection->getRemoteData();
-        $collection->setVisible(false);
-       // $collection->setCreator($user);
-        $collection->setPosition($cobraViewer->getMaxPosition() + 1);
-
-
-        try
+        else
         {
-
-            $entityManager->persist($collection);
-            $entityManager->flush();
-            $index = 0;
-            foreach($collection->getRemoteTexts() as $remoteText)
-            {
-                //var_dump($collection->getRemoteTexts());die();
-                $text = new CobraText();
-                $text->setCollection($collection);
-                $text->setTitle($remoteText['title']);
-                $text->setRemoteId($remoteText['id']);
-                $text->setSource($remoteText['source']);
-                $text->setTextType('Lesson');
-                $text->setPosition(++$index);
-                $text->setVisible(true);
-                $entityManager->persist($text);
-            }
-            $entityManager->flush();
-            $this->session->getFlashBag()->add('success', $this->translator->trans('unamur_cobra_register_collection_success', array(), 'unamur_cobra'));
-        }
-        catch(\Exception $exception) {
-            $this->session->getFlashBag()->add('error', $this->translator->trans('unamur_cobra_register_collection_error', array(), 'unamur_cobra'));
+            $this->session->getFlashBag()->add('success', 'already registered');
         }
         return $this->redirect($this->generateUrl('unamur_cobra_collection_list', array('cobraViewerId' => $cobraViewer->getId())));
     }
@@ -205,6 +199,43 @@ class CobraViewerController extends Controller
         //return new Response(204);
         return $this->redirect($this->generateUrl('unamur_cobra_collection_list', array('cobraViewerId' => $resource->getId())));
     }
+
+    /**
+     * @EXT\Route(
+     *     "/collection/{cobraCollectionId}/changeVisibility",
+     *     name = "unamur_cobra_change_collection_visibility",
+     *     options={"expose"=true}
+     * )
+     *
+     * @EXT\Method("POST")
+     *
+     * @EXT\ParamConverter(
+     *      "cobraCollection",
+     *      class="JrmUnamurCobraBundle:CobraCollection",
+     *      options={"id" = "cobraCollectionId", "strictId" = true}
+     * )
+     *
+     *
+     * @param CobraCollection $cobraCollection
+     * @return Response
+     */
+    public function changeVisibilityAction(CobraCollection $cobraCollection)
+    {
+        $resource = $cobraCollection->getCobraViewer();
+        /*if (!$this->get('security.context')->isGranted('EDIT', $resource)) {
+            throw new AccessDeniedException($resource->getErrorsForDisplay());
+        }*/
+        $this->checkAccess('EDIT', $resource);
+        //$flashBag = $this->get('session')->getFlashBag();
+        //$translator = $this->get('translator');
+        $entityManager = $this->getDoctrine()->getManager();
+        $cobraCollection->setVisible(!$cobraCollection->isVisible());
+        $entityManager->flush();
+
+        return new Response(204);
+    }
+
+
 
 
     /**

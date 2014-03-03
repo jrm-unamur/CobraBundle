@@ -29,13 +29,8 @@
                                         <i class="icon-edit"></i>
                                     </button>
                                 </a>
-                                <a href="{{ path('unamur_cobra_unregister_collection', {'cobraCollectionId': regCollection.getId()}) }}">
-                                    <button type="button" class="btn btn-default" btn-cobra-collection-id="{{ regCollection.getId() }}">
-                                        <i class="icon-remove"></i>
-                                    </button>
-                                </a>
                                 {# uncomment to handle unregistration through javascript
-                                 will be usable with local cache storage of cobra resources (collection and text definitions)
+                                will be usable with local cache storage of cobra resources (collection and text definitions)
                                 <button
                                         type="button"
                                         class="cobra-unregister-button btn btn-default"
@@ -43,6 +38,32 @@
                                         >
                                     &times;
                                 </button>#}
+                                <a href="{{ path('unamur_cobra_unregister_collection', {'cobraCollectionId': regCollection.getId()}) }}">
+                                    <button type="button" class="btn btn-default" btn-cobra-collection-id="{{ regCollection.getId() }}">
+                                        <i class="icon-remove"></i>
+                                    </button>
+                                </a>
+                                <button type="button"
+                                        class="btn btn-default cobra-collection-move-up {% if loop.first %} disabled {% endif %}"
+                                        btn-cobra-collection-id="{{ regCollection.getId() }}">
+                                    <i class="icon-arrow-up"></i>
+                                </button>
+                                <button type="button"
+                                        class="btn btn-default cobra-collection-move-down {% if loop.last %} disabled {% endif %}"
+                                        btn-cobra-collection-id="{{ regCollection.getId() }}">
+                                    <i class="icon-arrow-down"></i>
+                                </button>
+                                <button type="button"
+                                        class="btn btn-default cobra-collection-change-visibility"
+                                        btn-cobra-collection-id="{{ regCollection.getId() }}">
+                                    <i class="
+                                    {% if regCollection.isVisible() %}
+                                        icon-eye-open
+                                    {% else %}
+                                        icon-eye-close
+                                    {% endif %}
+                                        "></i>
+                                </button>
                                 {% endif %}
                             </div>
                             <div class="panel-heading">
@@ -66,7 +87,9 @@
                                     {% for text in regCollection.getCobraTexts() %}
                                         <tr id="text{{ text.id }}" class="row-text">
                                             <td>
+                                                <a href="{{ path('unamur_cobra_show_text', {'cobraTextId': text.id}) }}">
                                                 {{ text.title | raw }}
+                                                </a>
                                             </td>
                                             <td>{{ text.source | raw }}</td>
                                             {% if is_granted('EDIT', resourceCollection) %}
