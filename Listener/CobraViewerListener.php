@@ -10,10 +10,12 @@ namespace JrmUnamur\CobraBundle\Listener;
 
 use JrmUnamur\CobraBundle\Entity\CobraViewer;
 use JrmUnamur\CobraBundle\Form\CobraViewerType;
+use JrmUnamur\CobraBundle\Form\CobraConfigType;
 use Claroline\CoreBundle\Event\CreateFormResourceEvent;
 use Claroline\CoreBundle\Event\CreateResourceEvent;
 use Claroline\CoreBundle\Event\DeleteResourceEvent;
 use Claroline\CoreBundle\Event\OpenResourceEvent;
+use Claroline\CoreBundle\Event\CustomActionResourceEvent;
 //use Claroline\CoreBundle\Form\Factory\FormFactory;
 use Claroline\CoreBundle\Manager\ResourceManager;
 use Symfony\Component\DependencyInjection\ContainerAware;
@@ -68,18 +70,6 @@ class CobraViewerListener extends ContainerAware
      */
     public function onCreateForm(CreateFormResourceEvent $event)
     {
-        /*$form = $this->formFactory->create(
-            FormFactory::TYPE_RESOURCE_RENAME,
-            array(),
-            new CobraViewer()
-        );
-        $content = $this->templating->render(
-            'ClarolineCoreBundle:Resource:createForm.html.twig',
-            array(
-                'form' => $form->createView(),
-                'resourceType' => 'unamur_cobra_viewer'
-            )
-        );*/
         $form = $this->formFactory->create(
             new CobraViewerType(),
             new CobraViewer()
@@ -107,11 +97,6 @@ class CobraViewerListener extends ContainerAware
             throw new NoHttpRequestException();
         }
 
-        /*$form = $this->formFactory->create(
-            FormFactory::TYPE_RESOURCE_RENAME,
-            array(),
-            new CobraViewer()
-        );*/
         $form = $this->formFactory->create(
             new CobraViewerType(),
             new CobraViewer()
@@ -155,6 +140,21 @@ class CobraViewerListener extends ContainerAware
             'unamur_cobra_collection_list',
             array('cobraViewerId' => $event->getResource()->getId())
         );
+        $event->setResponse(new RedirectResponse($route));
+        $event->stopPropagation();
+    }
+
+    /**
+     * @DI\Observe("configure_unamur_cobra_viewer")
+     * @param CustomActionResourceEvent $event
+     */
+    public function onConfigure(CustomActionResourceEvent $event)
+    {
+        $route = $this->router
+            ->generate(
+                'unamur_cobra_viewer_configure_form',
+                array('cobraViewerId' => $event->getResource()->getId())
+            );
         $event->setResponse(new RedirectResponse($route));
         $event->stopPropagation();
     }

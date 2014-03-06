@@ -95,6 +95,22 @@ class CobraViewerManager
         return $unregisteredCollections;
     }
 
+    public function moveUpCollection(CobraCollection $collection)
+    {
+        $precedingCollection = $this->collectionRepository->getPrecedingCollection($collection);
+        $collection->setPosition($precedingCollection->getPosition());
+        $precedingCollection->setPosition($precedingCollection->getPosition() + 1);
+        $this->om->flush();
+    }
+
+    public function moveDownCollection(CobraCollection $collection)
+    {
+        $followingCollection = $this->collectionRepository->getFollowingCollection($collection);
+        $collection->setPosition($followingCollection->getPosition());
+        $followingCollection->setPosition($followingCollection->getPosition() - 1);
+        $this->om->flush();
+    }
+
     public function getTextDisplay(CobraText $text)
     {
         $params = array('id_text' => $text->getRemoteId());

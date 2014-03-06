@@ -6,6 +6,7 @@ use JrmUnamur\CobraBundle\Manager\CobraViewerManager;
 use JrmUnamur\CobraBundle\Entity\CobraViewer;
 use JrmUnamur\CobraBundle\Entity\CobraCollection;
 use JrmUnamur\CobraBundle\Entity\CobraText;
+use JrmUnamur\CobraBundle\Form\CobraConfigType;
 use JrmUnamur\CobraBundle\Lib\ElexRemoteService;
 
 use Claroline\CoreBundle\Library\Resource\ResourceCollection;
@@ -15,6 +16,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\SecurityContextInterface;
@@ -87,7 +89,7 @@ class CobraViewerController extends Controller
         try {
             $this->checkAccess('EDIT', $cobraViewer);
             $registeredCollections = $this->cobraManager->getRegisteredCollectionsOfViewer($cobraViewer);
-            $unregisterdCollections = $this->cobraManager->getUnregisteredCollectionsForViewer($cobraViewer);
+            $unregisteredCollections = $this->cobraManager->getUnregisteredCollectionsForViewer($cobraViewer);
         }
         catch(AccessDeniedException $e) {
             $this->checkAccess('OPEN', $cobraViewer);
@@ -96,7 +98,7 @@ class CobraViewerController extends Controller
         return array(
             '_resource' => $cobraViewer,
             'regCollections' => $registeredCollections,
-            'unregCollections' => $unregisterdCollections,
+            'unregCollections' => $unregisteredCollections,
             'resourceCollection' => $resourceCollection
         );
     }
@@ -215,7 +217,6 @@ class CobraViewerController extends Controller
      *      options={"id" = "cobraCollectionId", "strictId" = true}
      * )
      *
-     *
      * @param CobraCollection $cobraCollection
      * @return Response
      */
@@ -235,7 +236,112 @@ class CobraViewerController extends Controller
         return new Response(204);
     }
 
+    /**
+     * @EXT\Route(
+     *     "/collection/{cobraCollectionId}/move/{direction}",
+     *     name = "unamur_cobra_move_collection",
+     *     options={"expose"=true}
+     * )
+     *
+     * @EXT\Method("POST")
+     *
+     * @EXT\ParamConverter(
+     *      "cobraCollection",
+     *      class="JrmUnamurCobraBundle:CobraCollection",
+     *      options={"id" = "cobraCollectionId", "strictId" = true}
+     * )
+     *
+     * @param CobraCollection $cobraCollection
+     * @param string $direction
+     * @return Response
+     */
+    public function moveCobraCollection(CobraCollection $cobraCollection, $direction = 'up')
+    {
+        try
+        {
+            if('up' == $direction)
+            {
+                $this->cobraManager->moveUpCollection($cobraCollection);
+            }
+            elseif('down' == $direction)
+            {
+                $this->cobraManager->moveDownCollection($cobraCollection);
+            }
+            $this->getDoctrine()->getManager()->flush();
+        }
+        catch(\Exception $exception)
+        {
 
+        }
+        return new Response(204);
+    }
+
+    /**
+     * @EXT\Route("/viewer/configure/{cobraViewerId}/form", name="unamur_cobra_viewer_configure_form", requirements={"cobraViewerId" = "\d+"})
+     * @EXT\ParamConverter("cobraViewer", class="JrmUnamurCobraBundle:CobraViewer", options={"id" = "cobraViewerId"})
+     * @EXT\Template("JrmUnamurCobraBundle::configureViewer.html.twig")
+     */
+    public function configureViewerFormAction(CobraViewer $cobraViewer)
+    {
+        $this->checkAccess('EDIT', $cobraViewer);
+        $registeredCollections = $this->cobraManager->getRegisteredCollectionsOfViewer($cobraViewer);
+        $unregisteredCollections = $this->cobraManager->getUnregisteredCollectionsForViewer($cobraViewer);
+
+        $form = $this->formFactory->create(new CobraConfigType(), $cobraViewer);
+
+        return array(
+            'form' => $form->createView(),
+            '_resource' => $cobraViewer,
+            'regCollections' => $registeredCollections,
+            'unregCollections' => $unregisteredCollections
+        );
+    }
+
+    /**
+     * @EXT\Route("/viewer/configure/{cobraViewerId}", name="unamur_cobra_viewer_configure", requirements={"cobraViewerId" = "\d+"})
+     * @EXT\ParamConverter("cobraViewer", class="JrmUnamurCobraBundle:CobraViewer", options={"id" = "cobraViewerId"})
+     * @EXT\Template("JrmUnamurCobraBundle::configureViewer.html.twig")
+     */
+    public function configureViewerAction(Request $request, CobraViewer $cobraViewer)
+    {
+        $this->checkAccess('EDIT', $cobraViewer);
+
+        $form = $this->formFactory->create(new CobraConfigType(), $cobraViewer);
+
+        $form->handleRequest($request);
+
+        if ("POST" === $request->getMethod())
+        {
+            if ($form->isValid())
+            {
+                $entityManager = $this->getDoctrine()->getManager();
+                try
+                {
+                    $cobraViewer->getResourceNode()->setName($cobraViewer->getName());
+                    $entityManager->flush();
+                    $this->session->getFlashBag()->add('success', $this->translator->trans('unamur_cobra_viewer_configure_success', array(), 'unamur_cobra'));
+                } catch (\Exception $exception) {
+                    $this->session->getFlashBag()->add('error', $this->translator->trans('unamur_cobra_viewer_configure_error', array(), 'unamur_cobra'));
+                }
+
+                return $this->redirect($this->generateUrl('unamur_cobra_collection_list', array('cobraViewerId' => $cobraViewer->getId())));
+            }
+            else
+            {
+                $this->session->getFlashBag()->add('error', $this->translator->trans('unamur_cobra_viewer_configure_error_invalid', array(), 'unamur_cobra'));
+                //return $this->redirect($this->generateUrl('unamur_cobra_collection_list', array('cobraViewerId' => $cobraViewer->getId())));
+            }
+        }
+        else{
+            $this->session->getFlashBag()->add('error', $this->translator->trans('unamur_cobra_viewer_configure_error_post', array(), 'unamur_cobra'));
+            //return $this->redirect($this->generateUrl('unamur_cobra_collection_list', array('cobraViewerId' => $cobraViewer->getId())));
+        }
+
+        return array(
+            '_resource'  => $cobraViewer,
+            'form'       => $form->createView(),
+        );
+    }
 
 
     /**

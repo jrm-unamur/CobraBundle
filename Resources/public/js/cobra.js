@@ -28,6 +28,7 @@
     $('.cobra-collection-change-visibility').click(function () {
 
         collectionId = $(this).attr('btn-cobra-collection-id');
+        var container = $(this).parent().parent();
         var icon = $(this).children(':first');
         var setVisible = $(icon).hasClass('icon-eye-close') ? true : false;
 
@@ -38,10 +39,14 @@
                if(setVisible)
                {
                    $(icon).removeClass('icon-eye-close').addClass('icon-eye-open');
+
+                   $(container).removeClass('panel-danger').addClass('panel-primary');
                }
                else
                {
                    $(icon).removeClass('icon-eye-open').addClass('icon-eye-close');
+
+                   $(container).removeClass('panel-primary').addClass('panel-danger');
                }
             },
             error: function () {
@@ -59,18 +64,16 @@
         var currentElement = $(this).parent().parent();
         collectionId = $(this).attr('btn-cobra-collection-id');
 
-
-
         $.ajax({
             url: Routing.generate('unamur_cobra_move_collection', {'cobraCollectionId': collectionId, 'direction' : 'up'}),
             type: 'POST',
             success: function (data) {
                 var previousSibling = currentElement.prev();
                 previousSibling.before(currentElement);
-                $('.cobraCollection-move-up').removeClass('disabled');
-                $('.cobraCollection-move-down').removeClass('disabled');
-                $('.cobraCollection-move-up').first().addClass('disabled');
-                $('.cobraCollection-move-down').last().addClass('disabled');
+                $('.cobra-collection-move-up').removeClass('disabled');
+                $('.cobra-collection-move-down').removeClass('disabled');
+                $('.cobra-collection-move-up').first().addClass('disabled');
+                $('.cobra-collection-move-down').last().addClass('disabled');
             },
             error: function (data) {
                 alert(data);
@@ -87,8 +90,6 @@
         var currentElement = $(this).parent().parent();
         collectionId = $(this).attr('btn-cobra-collection-id');
 
-
-
         $.ajax({
             url: Routing.generate('unamur_cobra_move_collection', {'cobraCollectionId': collectionId, 'direction' : 'down'}),
             type: 'POST',
@@ -96,10 +97,10 @@
 
                 var nextSibling = currentElement.next();
                 nextSibling.after(currentElement);
-                $('.cobraCollection-move-up').removeClass('disabled');
-                $('.cobraCollection-move-down').removeClass('disabled');
-                $('.cobraCollection-move-up').first().addClass('disabled');
-                $('.cobraCollection-move-down').last().addClass('disabled');
+                $('.cobra-collection-move-up').removeClass('disabled');
+                $('.cobra-collection-move-down').removeClass('disabled');
+                $('.cobra-collection-move-up').first().addClass('disabled');
+                $('.cobra-collection-move-down').last().addClass('disabled');
             },
             error: function (data) {
                 alert(data);

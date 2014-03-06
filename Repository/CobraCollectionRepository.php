@@ -48,4 +48,27 @@ class CobraCollectionRepository extends EntityRepository
 
         return $query->getResult();
     }
+
+    public function getPrecedingCollection(CobraCollection $collection)
+    {
+        $queryBuilder = $this->createQueryBuilder('cc');
+        $queryBuilder->where('cc.cobraViewer = :viewer')
+            ->setParameter('viewer', $collection->getCobraViewer())
+            ->andWhere('cc.position = :position')
+            ->setParameter('position', (int)$collection->getPosition()-1);
+        return $queryBuilder->getQuery()
+            ->getSingleResult();
+    }
+
+    public function getFollowingCollection(CobraCollection $collection)
+    {
+        $queryBuilder = $this->createQueryBuilder('cc');
+        $queryBuilder->where('cc.cobraViewer = :viewer')
+            ->setParameter('viewer', $collection->getCobraViewer())
+            ->andWhere('cc.position = :position')
+            ->setParameter('position', (int)$collection->getPosition()+1);
+        return $queryBuilder->getQuery()
+            ->getSingleResult();
+    }
+
 } 

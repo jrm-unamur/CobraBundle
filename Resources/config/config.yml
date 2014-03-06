@@ -7,3 +7,6 @@ plugin:
           name: unamur_cobra_viewer
           is_exportable: false
           icon: cobra_icon.png
+          actions:
+            - name: configure
+              menu_name: configure
