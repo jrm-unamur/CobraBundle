@@ -6,11 +6,11 @@
  * Time: 14:26
  */
 
-namespace JrmUnamur\CobraBundle\Listener;
+namespace Unamur\CobraBundle\Listener;
 
-use JrmUnamur\CobraBundle\Entity\CobraViewer;
-use JrmUnamur\CobraBundle\Form\CobraViewerType;
-use JrmUnamur\CobraBundle\Form\CobraConfigType;
+use Unamur\CobraBundle\Entity\CobraViewer;
+use Unamur\CobraBundle\Form\CobraViewerType;
+use Unamur\CobraBundle\Form\CobraConfigType;
 use Claroline\CoreBundle\Event\CreateFormResourceEvent;
 use Claroline\CoreBundle\Event\CreateResourceEvent;
 use Claroline\CoreBundle\Event\DeleteResourceEvent;
@@ -75,7 +75,7 @@ class CobraViewerListener extends ContainerAware
             new CobraViewer()
         );
         $content = $this->templating->render(
-            'JrmUnamurCobraBundle::viewerCreate.html.twig',
+            'UnamurCobraBundle::viewerCreate.html.twig',
             array(
                 'form' => $form->createView(),
                 'resourceType' => 'unamur_cobra_viewer'
@@ -120,7 +120,7 @@ class CobraViewerListener extends ContainerAware
             )
         );*/
         $content = $this->templating->render(
-            'JrmUnamurCobraBundle::viewerCreate.html.twig',
+            'UnamurCobraBundle::viewerCreate.html.twig',
             array(
                 'form' => $form->createView(),
                 'resourceType' => 'unamur_cobra_viewer'

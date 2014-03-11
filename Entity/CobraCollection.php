@@ -6,13 +6,13 @@
  * Time: 12:14
  */
 
-namespace JrmUnamur\CobraBundle\Entity;
+namespace Unamur\CobraBundle\Entity;
 
-use JrmUnamur\CobraBundle\Lib\ElexRemoteService;
+use Unamur\CobraBundle\Lib\ElexRemoteService;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="JrmUnamur\CobraBundle\Repository\CobraCollectionRepository")
+ * @ORM\Entity(repositoryClass="Unamur\CobraBundle\Repository\CobraCollectionRepository")
  * @ORM\Table(name="unamur_cobra_collection")
  */
 class CobraCollection
@@ -51,7 +51,7 @@ class CobraCollection
 
     /**
      * @ORM\OneToMany(
-     *     targetEntity="JrmUnamur\CobraBundle\Entity\CobraText",
+     *     targetEntity="Unamur\CobraBundle\Entity\CobraText",
      *     mappedBy="collection"
      * )
      */
@@ -61,7 +61,7 @@ class CobraCollection
 
     /**
      * @ORM\ManyToOne(
-     *     targetEntity="JrmUnamur\CobraBundle\Entity\CobraViewer",
+     *     targetEntity="Unamur\CobraBundle\Entity\CobraViewer",
      *     inversedBy="cobraCollections"
      * )
      * @ORM\JoinColumn(name="cobra_viewer_id", onDelete="CASCADE", nullable=false)

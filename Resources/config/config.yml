@@ -3,7 +3,7 @@ plugin:
     icon: cobra_icon.png
 
     resources:
-        - class: JrmUnamur\CobraBundle\Entity\CobraViewer
+        - class: Unamur\CobraBundle\Entity\CobraViewer
           name: unamur_cobra_viewer
           is_exportable: false
           icon: cobra_icon.png

@@ -1,13 +1,13 @@
 <?php
 
-namespace JrmUnamur\CobraBundle\Controller;
+namespace Unamur\CobraBundle\Controller;
 
-use JrmUnamur\CobraBundle\Manager\CobraViewerManager;
-use JrmUnamur\CobraBundle\Entity\CobraViewer;
-use JrmUnamur\CobraBundle\Entity\CobraCollection;
-use JrmUnamur\CobraBundle\Entity\CobraText;
-use JrmUnamur\CobraBundle\Form\CobraConfigType;
-use JrmUnamur\CobraBundle\Lib\ElexRemoteService;
+use Unamur\CobraBundle\Manager\CobraViewerManager;
+use Unamur\CobraBundle\Entity\CobraViewer;
+use Unamur\CobraBundle\Entity\CobraCollection;
+use Unamur\CobraBundle\Entity\CobraText;
+use Unamur\CobraBundle\Form\CobraConfigType;
+use Unamur\CobraBundle\Lib\ElexRemoteService;
 
 use Claroline\CoreBundle\Library\Resource\ResourceCollection;
 use Claroline\CoreBundle\Library\Security\Utilities;
@@ -38,7 +38,7 @@ class CobraViewerController extends Controller
 
     /**
      * @DI\InjectParams({
-     *     "cobraManager"        = @DI\Inject("jrmunamur.cobra.manager.cobra_manager"),
+     *     "cobraManager"        = @DI\Inject("unamur.cobra.manager.cobra_manager"),
      *     "eventDispatcher"     = @DI\Inject("event_dispatcher"),
      *     "formFactory"         = @DI\Inject("form.factory"),
      *     "securityContext"     = @DI\Inject("security.context"),
@@ -75,10 +75,10 @@ class CobraViewerController extends Controller
      * @EXT\Method("GET")
      * @EXT\ParamConverter(
      *      "cobraViewer",
-     *      class="JrmUnamurCobraBundle:CobraViewer",
+     *      class="UnamurCobraBundle:CobraViewer",
      *      options={"id" = "cobraViewerId", "strictId" = true}
      * )
-     * @EXT\Template("JrmUnamurCobraBundle::collectionList.html.twig")
+     * @EXT\Template("UnamurCobraBundle::collectionList.html.twig")
      * @param CobraViewer $cobraViewer
      *
      * @return Response
@@ -101,6 +101,7 @@ class CobraViewerController extends Controller
             'unregCollections' => $unregisteredCollections,
             'resourceCollection' => $resourceCollection
         );
+        /*test*/
     }
 
     /**
@@ -111,10 +112,10 @@ class CobraViewerController extends Controller
      * @EXT\Method("GET")
      * @EXT\ParamConverter(
      *      "cobraText",
-     *      class="JrmUnamurCobraBundle:CobraText",
+     *      class="UnamurCobraBundle:CobraText",
      *      options={"id" = "cobraTextId", "strictId" = true}
      * )
-     * @EXT\Template("JrmUnamurCobraBundle::text.html.twig")
+     * @EXT\Template("UnamurCobraBundle::text.html.twig")
      * @param CobraText $cobraText
      *
      * @return Response
@@ -139,7 +140,7 @@ class CobraViewerController extends Controller
      * @EXT\Method("GET")
      * @EXT\ParamConverter(
      *      "cobraViewer",
-     *      class="JrmUnamurCobraBundle:CobraViewer",
+     *      class="UnamurCobraBundle:CobraViewer",
      *      options={"id" = "cobraViewerId", "strictId" = true}
      * )
      * @EXT\Template()
@@ -175,7 +176,7 @@ class CobraViewerController extends Controller
      * )
      * @EXT\ParamConverter(
      *      "cobraCollection",
-     *      class="JrmUnamurCobraBundle:CobraCollection",
+     *      class="UnamurCobraBundle:CobraCollection",
      *      options={"id" = "cobraCollectionId", "strictId" = true}
      * )
      *
@@ -213,7 +214,7 @@ class CobraViewerController extends Controller
      *
      * @EXT\ParamConverter(
      *      "cobraCollection",
-     *      class="JrmUnamurCobraBundle:CobraCollection",
+     *      class="UnamurCobraBundle:CobraCollection",
      *      options={"id" = "cobraCollectionId", "strictId" = true}
      * )
      *
@@ -247,7 +248,7 @@ class CobraViewerController extends Controller
      *
      * @EXT\ParamConverter(
      *      "cobraCollection",
-     *      class="JrmUnamurCobraBundle:CobraCollection",
+     *      class="UnamurCobraBundle:CobraCollection",
      *      options={"id" = "cobraCollectionId", "strictId" = true}
      * )
      *
@@ -278,8 +279,8 @@ class CobraViewerController extends Controller
 
     /**
      * @EXT\Route("/viewer/configure/{cobraViewerId}/form", name="unamur_cobra_viewer_configure_form", requirements={"cobraViewerId" = "\d+"})
-     * @EXT\ParamConverter("cobraViewer", class="JrmUnamurCobraBundle:CobraViewer", options={"id" = "cobraViewerId"})
-     * @EXT\Template("JrmUnamurCobraBundle::configureViewer.html.twig")
+     * @EXT\ParamConverter("cobraViewer", class="UnamurCobraBundle:CobraViewer", options={"id" = "cobraViewerId"})
+     * @EXT\Template("UnamurCobraBundle::configureViewer.html.twig")
      */
     public function configureViewerFormAction(CobraViewer $cobraViewer)
     {
@@ -301,8 +302,8 @@ $corpusArray = $cobraViewer->getCorpusDisplayOrder();
 
     /**
      * @EXT\Route("/viewer/configure/{cobraViewerId}", name="unamur_cobra_viewer_configure", requirements={"cobraViewerId" = "\d+"})
-     * @EXT\ParamConverter("cobraViewer", class="JrmUnamurCobraBundle:CobraViewer", options={"id" = "cobraViewerId"})
-     * @EXT\Template("JrmUnamurCobraBundle::configureViewer.html.twig")
+     * @EXT\ParamConverter("cobraViewer", class="UnamurCobraBundle:CobraViewer", options={"id" = "cobraViewerId"})
+     * @EXT\Template("UnamurCobraBundle::configureViewer.html.twig")
      */
     public function configureViewerAction(Request $request, CobraViewer $cobraViewer)
     {

@@ -8,9 +8,9 @@
  * Time: 14:57
  */
 
-namespace JrmUnamur\CobraBundle\Entity;
+namespace Unamur\CobraBundle\Entity;
 
-use JrmUnamur\CobraBundle\Entity\CobraCollection;
+use Unamur\CobraBundle\Entity\CobraCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -60,7 +60,7 @@ class CobraText
 
     /**
      * @ORM\ManyToOne(
-     *     targetEntity="JrmUnamur\CobraBundle\Entity\CobraCollection",
+     *     targetEntity="Unamur\CobraBundle\Entity\CobraCollection",
      *     inversedBy="cobraTexts"
      * )
      * @ORM\JoinColumn(name="collection_id", onDelete="CASCADE", nullable=false)
