@@ -105,6 +105,7 @@ class CobraViewerListener extends ContainerAware
 
         if ($form->isValid()) {
             $cobraViewer = $form->getData();
+            $cobraViewer->initCorpusList();
             $event->setResources(array($cobraViewer));
             $event->stopPropagation();
 

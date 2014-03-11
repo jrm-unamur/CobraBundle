@@ -93,7 +93,7 @@ class CobraViewer extends AbstractResource
     /**
      * @var string $corpusDisplayOrder
      *
-     * @ORM\Column(name="corpus_display_order", length=32, nullable=true)
+     * @ORM\Column(name="corpus_display_order", type="text", nullable=true)
      */
     private $corpusDisplayOrder;
 
@@ -108,6 +108,7 @@ class CobraViewer extends AbstractResource
         $this->displayOccurrences = true;
         $this->descriptionsDisplayMode = 'conditional';
         $this->showMediaPlayer = true;
+        $this->corpusDisplayOrder = array();
     }
 
     public function getCobraCollections()
@@ -120,7 +121,7 @@ class CobraViewer extends AbstractResource
      */
     public function setCorpusDisplayOrder($corpusDisplayOrder)
     {
-        $this->corpusDisplayOrder = $corpusDisplayOrder;
+        $this->corpusDisplayOrder = serialize($corpusDisplayOrder);
     }
 
     /**
@@ -128,7 +129,18 @@ class CobraViewer extends AbstractResource
      */
     public function getCorpusDisplayOrder()
     {
-        return $this->corpusDisplayOrder;
+        return unserialize($this->corpusDisplayOrder);
+    }
+
+    public function initCorpusList()
+    {
+        if($this->language == 'EN')
+        {
+            $corpusList = array();
+            $corpusList[] = array('id' => '1', 'name' => 'édités par UNamur', 'class' => 'usuel_unamur');
+            $corpusList[] = array('id' => '11', 'name' => 'langue usuelle', 'class' => 'usuel');
+            $this->setCorpusDisplayOrder($corpusList);
+        }
     }
 
     /**
