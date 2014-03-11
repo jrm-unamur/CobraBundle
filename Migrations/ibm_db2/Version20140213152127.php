@@ -1,6 +1,6 @@
 <?php
 
-namespace JrmUnamur\CobraBundle\Migrations\ibm_db2;
+namespace Unamur\CobraBundle\Migrations\ibm_db2;
 
 use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;

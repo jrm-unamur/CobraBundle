@@ -6,14 +6,14 @@
  * Time: 14:51
  */
 
-namespace JrmUnamur\CobraBundle\Entity;
+namespace Unamur\CobraBundle\Entity;
 
 use Claroline\CoreBundle\Entity\Resource\AbstractResource;
 use Doctrine\ORM\Mapping as ORM;
 
 
 /**
- * JrmUnamur\CobraBundle\Entity\CobraViewer
+ * Unamur\CobraBundle\Entity\CobraViewer
  *
  * @ORM\Entity
  * @ORM\Table(name="unamur_cobra_viewer")
@@ -22,7 +22,7 @@ class CobraViewer extends AbstractResource
 {
     /**
      * @ORM\OneToMany(
-     *      targetEntity="JrmUnamur\CobraBundle\Entity\CobraCollection",
+     *      targetEntity="Unamur\CobraBundle\Entity\CobraCollection",
      *      mappedBy="cobraViewer")
      */
     protected $cobraCollections;

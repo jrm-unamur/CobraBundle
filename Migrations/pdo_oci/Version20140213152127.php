@@ -1,6 +1,6 @@
 <?php
 
-namespace JrmUnamur\CobraBundle\Migrations\pdo_oci;
+namespace Unamur\CobraBundle\Migrations\pdo_oci;
 
 use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;

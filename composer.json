@@ -1,5 +1,5 @@
 {
-    "name": "jrm-unamur/cobra-bundle",
+    "name": "unamur/cobra-bundle",
     "description": "Cobra bundle",
     "keywords": ["Cobra", "reading assistant", "language learning", "sandbox"],
     "homepage": "http://tice.det.fundp.ac.be/cobra/",
@@ -16,7 +16,7 @@
         "claroline/core-bundle": "~2.9"
     },
     "autoload": {
-        "psr-0": { "JrmUnamur\\CobraBundle": ""}
+        "psr-0": { "Unamur\\CobraBundle": ""}
     },
-    "target-dir": "JrmUnamur/CobraBundle"
+    "target-dir": "Unamur/CobraBundle"
 }

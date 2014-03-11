@@ -6,7 +6,7 @@
  * Time: 9:32
  */
 
-namespace JrmUnamur\CobraBundle\Form;
+namespace Unamur\CobraBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -38,7 +38,7 @@ class CobraViewerType extends AbstractType
     {
         $resolver->setDefaults(array(
             'translation_domain' => 'unamur_cobra',
-            'data_class' => 'JrmUnamur\CobraBundle\Entity\CobraViewer',
+            'data_class' => 'Unamur\CobraBundle\Entity\CobraViewer',
             'csrf_protection' => true
         ));
     }

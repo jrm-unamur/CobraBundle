@@ -7,7 +7,7 @@
  * Date: 12/12/13
  * Time: 11:54
  */
-namespace JrmUnamur\CobraBundle\Lib;
+namespace Unamur\CobraBundle\Lib;
 
 use Symfony\Component\HttpKernel\Exception;
 class ElexRemoteService

@@ -6,13 +6,13 @@
  * Time: 15:25
  */
 
-namespace JrmUnamur\CobraBundle\Manager;
+namespace Unamur\CobraBundle\Manager;
 
-use JrmUnamur\CobraBundle\Entity\CobraViewer;
-use JrmUnamur\CobraBundle\Entity\CobraCollection;
-use JrmUnamur\CobraBundle\Entity\CobraText;
-use JrmUnamur\CobraBundle\Repository\CobraCollectionRepository;
-use JrmUnamur\CobraBundle\Lib\ElexRemoteService;
+use Unamur\CobraBundle\Entity\CobraViewer;
+use Unamur\CobraBundle\Entity\CobraCollection;
+use Unamur\CobraBundle\Entity\CobraText;
+use Unamur\CobraBundle\Repository\CobraCollectionRepository;
+use Unamur\CobraBundle\Lib\ElexRemoteService;
 
 use Claroline\CoreBundle\Persistence\ObjectManager;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -20,7 +20,7 @@ use Symfony\Component\ExpressionLanguage\Tests\Node\Obj;
 
 
 /**
- * @DI\Service("jrmunamur.cobra.manager.cobra_manager")
+ * @DI\Service("unamur.cobra.manager.cobra_manager")
  */
 class CobraViewerManager
 {
@@ -35,7 +35,7 @@ class CobraViewerManager
      */
     public function __construct(ObjectManager $om)
     {
-        $this->collectionRepository = $om->getRepository('JrmUnamurCobraBundle:CobraCollection');
+        $this->collectionRepository = $om->getRepository('UnamurCobraBundle:CobraCollection');
         $this->om = $om;
     }
 

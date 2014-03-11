@@ -6,10 +6,10 @@
  * Time: 15:49
  */
 
-namespace JrmUnamur\CobraBundle\Repository;
+namespace Unamur\CobraBundle\Repository;
 
-use JrmUnamur\CobraBundle\Entity\CobraViewer;
-use JrmUnamur\CobraBundle\Entity\CobraCollection;
+use Unamur\CobraBundle\Entity\CobraViewer;
+use Unamur\CobraBundle\Entity\CobraCollection;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 

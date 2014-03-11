@@ -6,7 +6,7 @@
  * Time: 8:56
  */
 
-namespace JrmUnamur\CobraBundle\Lib;
+namespace Unamur\CobraBundle\Lib;
 
 
 class CobraRemoteException extends \Exception

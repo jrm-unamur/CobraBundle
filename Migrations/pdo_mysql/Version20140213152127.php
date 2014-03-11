@@ -1,6 +1,6 @@
 <?php
 
-namespace JrmUnamur\CobraBundle\Migrations\pdo_mysql;
+namespace Unamur\CobraBundle\Migrations\pdo_mysql;
 
 use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;

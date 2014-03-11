@@ -1,6 +1,6 @@
 <?php
 
-namespace JrmUnamur\CobraBundle\Tests\Controller;
+namespace Unamur\CobraBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

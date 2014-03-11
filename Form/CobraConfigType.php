@@ -6,9 +6,9 @@
  * Time: 11:05
  */
 
-namespace JrmUnamur\CobraBundle\Form;
+namespace Unamur\CobraBundle\Form;
 
-use JrmUnamur\CobraBundle\Entity\CobraViewer;
+use Unamur\CobraBundle\Entity\CobraViewer;
 use Claroline\CoreBundle\Entity\Resource\AbstractResource;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -73,7 +73,7 @@ class CobraConfigType extends AbstractType
     {
         $resolver->setDefaults(array(
             'translation_domain' => 'unamur_cobra',
-            'data_class' => 'JrmUnamur\CobraBundle\Entity\CobraViewer',
+            'data_class' => 'Unamur\CobraBundle\Entity\CobraViewer',
             'csrf_protection' => true,
             'intention' => 'configure_cobra'
         ));
