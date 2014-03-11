@@ -101,7 +101,7 @@ class CobraViewerController extends Controller
             'unregCollections' => $unregisteredCollections,
             'resourceCollection' => $resourceCollection
         );
-        
+        /*test*/
     }
 
     /**
@@ -287,7 +287,7 @@ class CobraViewerController extends Controller
         $this->checkAccess('EDIT', $cobraViewer);
         $registeredCollections = $this->cobraManager->getRegisteredCollectionsOfViewer($cobraViewer);
         $unregisteredCollections = $this->cobraManager->getUnregisteredCollectionsForViewer($cobraViewer);
-$corpusArray = $cobraViewer->getCorpusDisplayOrder();
+        $corpusArray = $cobraViewer->getCorpusDisplayOrder();
         $form = $this->formFactory->create(new CobraConfigType(), $cobraViewer);
 
         return array(
