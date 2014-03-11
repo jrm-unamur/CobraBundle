@@ -1,6 +1,6 @@
 <?php
 
-namespace UnamurUnamur\CobraBundle;
+namespace Unamur\CobraBundle;
 
 use Claroline\CoreBundle\Library\PluginBundle;
 use Claroline\KernelBundle\Bundle\ConfigurationBuilder;

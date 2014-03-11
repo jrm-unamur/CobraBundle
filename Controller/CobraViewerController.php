@@ -101,6 +101,7 @@ class CobraViewerController extends Controller
             'unregCollections' => $unregisteredCollections,
             'resourceCollection' => $resourceCollection
         );
+        
     }
 
     /**
