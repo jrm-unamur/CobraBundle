@@ -27,8 +27,8 @@ class CobraConfigType extends AbstractType
                 'label' => 'langue',
                 'read_only' => true
             ))
-            ->add('display_gender', 'checkbox', array(
-            'required' => false,
+            ->add('show_media_player', 'checkbox', array(
+                'required' => false,
             ))
             ->add('display_inflected_forms', 'checkbox', array(
                 'required' => false,
@@ -58,8 +58,7 @@ class CobraConfigType extends AbstractType
             ->add('corpus_display_order', 'checkbox', array(
                 'required' => false,
             ))
-            ->add('show_media_player', 'checkbox', array(
-                'required' => false,*/
+            */
             ))
         ;
     }

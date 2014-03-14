@@ -28,8 +28,7 @@
 
             </div>
         </div>
-
-        <div class="row">
+{#      <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -43,9 +42,7 @@
                     <div id="panel-collections" class="panel-body collapse in">
                         <h4>Mes collections - {{ regCollections | length }}</h4>
                         {% set index = 0 %}
-                        {#<table id="myCollections" class="table table-hover in">
 
-                        </table>#}
                         {% for regCollection in regCollections %}
                             {% set index = index + 1 %}
                             <div class="col-md-5" id="panel{{ index }}" style="border-bottom: 1px solid #EEEEEE;">
@@ -56,15 +53,7 @@
                                             <span class="icon-pencil"></span>
                                         </button>
                                     </a>
-                                    {# uncomment to handle unregistration through javascript
-                                    will be usable with local cache storage of cobra resources (collection and text definitions)
-                                    <button
-                                            type="button"
-                                            class="cobra-unregister-button btn btn-default"
-                                            btn-cobra-collection-id="{{ regCollection.getId() }}"
-                                            >
-                                        &times;
-                                    </button>#}
+
                                     <a href="{{ path('unamur_cobra_unregister_collection', {'cobraCollectionId': regCollection.getId()}) }}">
                                         <button type="button" class="btn btn-xs btn-default" btn-cobra-collection-id="{{ regCollection.getId() }}">
                                             <i class="icon-remove"></i>
@@ -199,7 +188,7 @@
 
             </div>
         </div>
-
+#}
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="panel panel-default">
@@ -212,12 +201,11 @@
 
                     </div>
                     <div id="panel-display" class="panel-body collapse">
-                        {% if form.language.vars['value'] == 'EN' %}
                         <div class="form-group row">
                             <label class="control-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                {{ 'unamur_cobra_config_form_display_gender' | trans({}, 'unamur_cobra') }}
+                                {{ 'unamur_cobra_config_form_show_media_player' | trans({}, 'unamur_cobra') }}
                             </label>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">{{ form_widget(form.display_gender) }}</div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">{{ form_widget(form.show_media_player) }}</div>
                         </div>
                         <div class="form-group row">
                             <label class="control-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
@@ -259,7 +247,6 @@
                        {# <div class="checkbox">
 
                         </div>#}
-                        {% endif %}
                         {#{{ form_widget(form.display_inflected_forms) }}
                         {{ form_widget(form.translations_display_mode) }}
                         {{ form_rest(form) }}#}
@@ -287,7 +274,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            {% for item in corpus %}
+                            {% for item in _resource.getCorpusDisplayOrder() %}
                                 <tr>
                                     <td>
                                         <input name="{{ item.id }}"

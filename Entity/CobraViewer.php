@@ -35,13 +35,6 @@ class CobraViewer extends AbstractResource
     private $language;
 
     /**
-     * @var boolean $displayGender
-     *
-     * @ORM\Column(name="display_gender", type="boolean", nullable=false)
-     */
-    private $displayGender;
-
-    /**
      * @var boolean $displayInflectedForms
      *
      * @ORM\Column(name="display_inflected_forms", type="boolean", nullable=false)
