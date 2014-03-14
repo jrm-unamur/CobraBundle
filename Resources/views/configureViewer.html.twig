@@ -40,7 +40,7 @@
                         </h3>
                     </div>
 
-                    <div id="panel-collections" class="panel-body collapse">
+                    <div id="panel-collections" class="panel-body collapse in">
                         <h4>Mes collections - {{ regCollections | length }}</h4>
                         {% set index = 0 %}
                         {#<table id="myCollections" class="table table-hover in">
@@ -273,16 +273,11 @@
                         <h3 class="panel-title">
                             <a data-toggle="collapse" href="#panel-corpus">
                                 Sélection des corpus
-
-                                {{ form_rest(form) }}
                             </a>
                         </h3>
-                        {% for item in  corpus %}
-                            <p>{{ item.name }}</p>
-                        {% endfor %}
                     </div>
 
-                    <div id="panel-corpus" class="panel-body collapse in">
+                    <div id="panel-corpus" class="panel-body collapse">
                         <table id="corpus-selection-table" class="table table-hover in">
                             <thead>
                                 <tr>
@@ -292,85 +287,52 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            {% for item in corpus %}
                                 <tr>
                                     <td>
-                                        <input name="1" value="true" checked="checked" type="checkbox">
+                                        <input name="{{ item.id }}"
+                                               value="true"
+                                               {% if item.selected %} checked="checked" {% endif %}
+                                               type="checkbox">
                                     </td>
-                                    <td class="usuel_FUNDP"> édités par UNamur</td>
+                                    <td class="{{ item.class }}">
+                                        {{ item.name }}
+                                    </td>
                                     <td>
-                                        <select name="ordre1">
-                                        <option value="">&nbsp; </option><option value="1" selected="selected">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select>
-                                </td></tr><tr><td><input name="11" value="true" checked="checked" type="checkbox"></td><td class="usuel"> langue usuelle</td><td> <select name="ordre11">
-                                        <option value="">&nbsp; </option><option value="1">1</option><option value="2" selected="selected">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select>
-                                </td></tr><tr><td><input name="21" value="true" checked="checked" type="checkbox"></td><td class="semi-technique"> politique</td><td> <select name="ordre21">
-                                        <option value="">&nbsp; </option><option value="1">1</option><option value="2">2</option><option value="3" selected="selected">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select>
-                                </td></tr><tr><td><input name="22" value="true" type="checkbox"></td><td class="technique"> droit</td><td> <select name="ordre22">
-                                        <option value="" selected="selected">&nbsp; </option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select>
-                                </td></tr><tr><td><input name="32" value="true" type="checkbox"></td><td class="histoire"> art et histoire</td><td> <select name="ordre32">
-                                        <option value="" selected="selected">&nbsp; </option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select>
-                                </td></tr><tr><td><input name="42" value="true" type="checkbox"></td><td class="informatique"> informatique</td><td> <select name="ordre42">
-                                        <option value="" selected="selected">&nbsp; </option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select>
-                                </td></tr><tr><td><input name="52" value="true" type="checkbox"></td><td class="sciences"> sciences et techniques</td><td> <select name="ordre52">
-                                        <option value="" selected="selected">&nbsp; </option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select>
-                                </td></tr><tr><td><input name="62" value="true" checked="checked" type="checkbox"></td><td class="eco"> économie</td><td> <select name="ordre62">
-                                        <option value="">&nbsp; </option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4" selected="selected">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select>
-                                </td></tr><tr><td colspan="3" style="text-align:center;">
-                                    <input value="Ok" name="submit" type="submit">&nbsp;
-                                    <a href="index.php"><input onclick="document.location='index.php';return false" value="Annuler" type="button"></a>
-                                </td></tr>
-                            </tbody></table>
-
+                                        <select name="ordre{{ item.id }}">
+                                        {% set count = corpus | length %}
+                                            <option value="">&nbsp;</option>
+                                        {% for corp in corpus %}
+                                            <option value="{{ loop.index }}"
+                                                    {% if item.position == loop.index %}selected="selected"{% endif %}>
+                                                {{ loop.index }}
+                                            </option>
+                                        {% endfor %}
+                                        </select>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
-
+        {{ form_rest(form) }}
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'cancel' | trans({}, 'platform') }}</button>
             <button type="submit" class="btn btn-primary">{{ 'ok' | trans({}, 'platform') }}</button>
         </div>
     </div>
 </form>
-    {# form action="{{ _path('unamur_cobra_configure', {'cobraViewerId': _resource.id}) }}" method="post" {{ form_enctype(form) }} class="form-horizontal well configure_cobra_form">
-        <legend>{{ "configure_cobra" | trans({}, 'unamur_cobra') }}</legend>
-        {{ form_errors(form) }}
-        <div class="checkbox">
-            <label>
-                {{ form_widget(form.display_gender) }} {{ 'unamur_cobra_config_form_display_gender' | trans({}, 'unamur_cobra') }}
-            </label>
-        </div>
-        <div class="checkbox">
-            <label>
-                {{ form_widget(form.display_inflected_forms) }} {{ 'unamur_cobra_config_form_display_inflected_forms' | trans({}, 'unamur_cobra') }}
-            </label>
-        </div>
-        <div class="checkbox">
-            <label>
-                {{ form_widget(form.display_occurrences) }} {{ 'unamur_cobra_config_form_display_occurrences' | trans({}, 'unamur_cobra') }}
-            </label>
-        </div>
-        <div class="checkbox">
-            <label>
-                {{ form_widget(form.display_illustrations) }} {{ 'unamur_cobra_config_form_display_illustrations' | trans({}, 'unamur_cobra') }}
-            </label>
-        </div>
-        <div class="checkbox">
-            <label>
-                {{ form_widget(form.show_media_player) }} {{ 'unamur_cobra_config_form_show_media_player' | trans({}, 'unamur_cobra') }}
-            </label>
-        </div>
-        {{ form_rest(form) }}
-        <div clas="form-actions">
-            <button type="submit" class="btn btn-primary">{{ 'configure' | trans({}, 'platform') }}</button>
-            <a href="http://localhost:8081/claconn/web/app_dev.php/desktop/tool/open/resource_manager#" title="{{ 'cancel' | trans({}, 'platform') }}" class="btn btn-danger">{{ 'cancel' | trans({}, 'platform') }}</a>
-        </div>
-    </form>
+{#
     {% block stylesheets %}
     {{ parent() }}
     {% stylesheets debug=false filter='lessphp'  output='bundles/unamurcobra/css/style.css'
     "@UnamurCobraBundle/Resources/views/less/style.less"
     %}<link rel="stylesheet" href="{{ asset_url }}" screen="media" />
     {% endstylesheets %}
-    {% endblock %} #}
+    {% endblock %}
+#}
 
 {% endblock %}

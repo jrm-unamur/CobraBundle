@@ -146,6 +146,17 @@ class CobraViewerListener extends ContainerAware
     }
 
     /**
+     * @DI\Observe("delete_unamur_cobra_viewer")
+     *
+     * @param DeleteResourceEvent $event
+     */
+    public function onDelete(DeleteResourceEvent $event)
+    {
+        //$this->resourceManager->delete($event->getResource());
+        $event->stopPropagation();
+    }
+
+    /**
      * @DI\Observe("configure_unamur_cobra_viewer")
      * @param CustomActionResourceEvent $event
      */

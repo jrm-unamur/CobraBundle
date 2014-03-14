@@ -2,6 +2,7 @@
 
 namespace Unamur\CobraBundle;
 
+use Unamur\CobraBundle\Installation\AdditionalInstaller;
 use Claroline\CoreBundle\Library\PluginBundle;
 use Claroline\KernelBundle\Bundle\ConfigurationBuilder;
 
@@ -18,4 +19,8 @@ class UnamurCobraBundle extends PluginBundle
         return $config;
     }
 
+    public function getAdditionalInstaller()
+    {
+        return new AdditionalInstaller();
+    }
 }

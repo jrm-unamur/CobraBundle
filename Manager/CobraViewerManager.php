@@ -26,6 +26,7 @@ class CobraViewerManager
 {
     /** @var CobraCollectionRepository */
     private $collectionRepository;
+    private $remoteCollectionRepository;
     private $om;
 
     /**
@@ -36,6 +37,7 @@ class CobraViewerManager
     public function __construct(ObjectManager $om)
     {
         $this->collectionRepository = $om->getRepository('UnamurCobraBundle:CobraCollection');
+        $this->remoteCollectionRepository = $om->getRepository('UnamurCobraBundle:CobraRemoteCollection');
         $this->om = $om;
     }
 
@@ -81,7 +83,19 @@ class CobraViewerManager
         {
             $registeredCollectionsIdList[] = $collection->getRemoteId();
         }
+        $remoteCollections = $this->remoteCollectionRepository->findUnregisteredCollectionsForViewer($viewer);
         $unregisteredCollections = array();
+        foreach( $remoteCollections as $remoteCollection )
+        {
+            if(in_array($remoteCollection->getId(), $registeredCollectionsIdList)) continue;
+           /* $collection = new CobraCollection();
+            $collection->setRemoteId($remoteCollection->getId());
+            $collection->setName($remoteCollection->getName());*/
+            $unregisteredCollections[] = $remoteCollection;break;
+        }
+        return $unregisteredCollections;
+
+        /*$unregisteredCollections = array();
         $params = array('language' => $viewer->getLanguage());
         $collectionsObjectList = ElexRemoteService::call('loadFilteredCollections', $params);
         foreach($collectionsObjectList as $remoteCollection)
@@ -90,9 +104,9 @@ class CobraViewerManager
             $collection = new CobraCollection();
             $collection->setRemoteId($remoteCollection->id);
             $collection->setName($remoteCollection->label);
-            $unregisteredCollections[] = $collection;
+            $unregisteredCollections[] = $collection;break;
         }
-        return $unregisteredCollections;
+        return $unregisteredCollections;*/
     }
 
     public function moveUpCollection(CobraCollection $collection)

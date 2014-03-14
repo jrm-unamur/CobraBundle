@@ -17,7 +17,7 @@ class ElexRemoteService
         try
         {
             $validReturnTypes = array( 'html', 'object', 'objectList', 'string', 'integer', 'boolean', 'error' );
-            $url = 'http://tice.det.fundp.ac.be/cobra-dev/services/service_handler.php';
+            $url = 'http://tice.det.fundp.ac.be/cobra-dev/services/service_handler_new.php';
             $params['caller'] = 'Claro-sandbox';
             if( sizeof( $params ) )
             {

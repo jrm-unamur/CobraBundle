@@ -70,6 +70,15 @@ class CobraCollection
 
     /**
      * @ORM\ManyToOne(
+     *     targetEntity="Unamur\CobraBundle\Entity\CobraRemoteCollection",
+     *     inversedBy="localInstances"
+     * )
+     * @ORM\JoinColumn(name="remote_id", onDelete="CASCADE", nullable=false)
+     */
+    protected $remoteCollection;
+
+    /**
+     * @ORM\ManyToOne(
      *     targetEntity="Claroline\CoreBundle\Entity\User"
      * )
      * @ORM\JoinColumn(name="creator_id", onDelete="CASCADE", nullable=false)

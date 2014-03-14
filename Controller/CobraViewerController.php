@@ -99,6 +99,7 @@ class CobraViewerController extends Controller
             '_resource' => $cobraViewer,
             'regCollections' => $registeredCollections,
             'unregCollections' => $unregisteredCollections,
+            //'unregCollections' => array(),
             'resourceCollection' => $resourceCollection
         );
         /*test*/
@@ -152,7 +153,6 @@ class CobraViewerController extends Controller
     public function registerCollectionAction(CobraViewer $cobraViewer, $cobraRemoteCollectionId)
     {
         $entityManager = $this->getDoctrine()->getManager();
-
         $collection = new CobraCollection();
         $collection->setCobraViewer($cobraViewer);
         $collection->setRemoteId($cobraRemoteCollectionId);
@@ -166,6 +166,7 @@ class CobraViewerController extends Controller
             $this->session->getFlashBag()->add('success', 'already registered');
         }
         return $this->redirect($this->generateUrl('unamur_cobra_collection_list', array('cobraViewerId' => $cobraViewer->getId())));
+        //return $this->redirect($this->generateUrl('unamur_cobra_viewer_configure_form', array('cobraViewerId' => $cobraViewer->getId())));
     }
 
     /**
@@ -200,7 +201,8 @@ class CobraViewerController extends Controller
         }
         // change return statement to response (204) if handled by javascript
         //return new Response(204);
-        return $this->redirect($this->generateUrl('unamur_cobra_collection_list', array('cobraViewerId' => $resource->getId())));
+        //return $this->redirect($this->generateUrl('unamur_cobra_collection_list', array('cobraViewerId' => $resource->getId())));
+        return $this->redirect($this->generateUrl('unamur_cobra_viewer_configure_form', array('cobraViewerId' => $resource->getId())));
     }
 
     /**
@@ -282,11 +284,12 @@ class CobraViewerController extends Controller
      * @EXT\ParamConverter("cobraViewer", class="UnamurCobraBundle:CobraViewer", options={"id" = "cobraViewerId"})
      * @EXT\Template("UnamurCobraBundle::configureViewer.html.twig")
      */
-    public function configureViewerFormAction(CobraViewer $cobraViewer)
+    public function configureViewerFormAction(Request $request, CobraViewer $cobraViewer)
     {
         $this->checkAccess('EDIT', $cobraViewer);
         $registeredCollections = $this->cobraManager->getRegisteredCollectionsOfViewer($cobraViewer);
         $unregisteredCollections = $this->cobraManager->getUnregisteredCollectionsForViewer($cobraViewer);
+        $cobraViewer->initCorpusList();
         $corpusArray = $cobraViewer->getCorpusDisplayOrder();
         $form = $this->formFactory->create(new CobraConfigType(), $cobraViewer);
 
@@ -294,9 +297,10 @@ class CobraViewerController extends Controller
             'form' => $form->createView(),
             '_resource' => $cobraViewer,
             'regCollections' => $registeredCollections,
-            'unregCollections' => array(),
+            //'unregCollections' => array(),
+            'unregCollections' => $unregisteredCollections,
             'corpus' => $corpusArray
-            //'unregCollections' => $unregisteredCollections
+
         );
     }
 

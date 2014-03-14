@@ -134,13 +134,20 @@ class CobraViewer extends AbstractResource
 
     public function initCorpusList()
     {
-        if($this->language == 'EN')
+        $corpusList = array();
+        $corpusList[] = array('id' => '1', 'name' => 'Edités par UNamur', 'class' => 'usuel_unamur', 'selected' => false, 'position' => 0);
+        $corpusList[] = array('id' => '11', 'name' => 'Langue usuelle', 'class' => 'usuel', 'selected' => false, 'position' => 0);
+        $corpusList[] = array('id' => '21', 'name' => 'Politique', 'class' => 'semi-technique', 'selected' => false, 'position' => 0);
+        if($this->language == 'NL')
         {
-            $corpusList = array();
-            $corpusList[] = array('id' => '1', 'name' => 'édités par UNamur', 'class' => 'usuel_unamur');
-            $corpusList[] = array('id' => '11', 'name' => 'langue usuelle', 'class' => 'usuel');
-            $this->setCorpusDisplayOrder($corpusList);
+            $corpusList[] = array('id' => '22', 'name' => 'Droit', 'class' => 'technique', 'selected' => false, 'position' => 0);
         }
+        $corpusList[] = array('id' => '32', 'name' => 'Art et histoire', 'class' => 'histoire', 'selected' => false, 'position' => 0);
+        $corpusList[] = array('id' => '42', 'name' => 'Informatique', 'class' => 'informatique', 'selected' => false, 'position' => 0);
+        $corpusList[] = array('id' => '52', 'name' => 'Sciences et techniques', 'class' => 'sciences', 'selected' => false, 'position' => 0);
+        $corpusList[] = array('id' => '62', 'name' => 'Economie', 'class' => 'eco', 'selected' => false, 'position' => 0);
+
+        $this->setCorpusDisplayOrder($corpusList);
     }
 
     /**
