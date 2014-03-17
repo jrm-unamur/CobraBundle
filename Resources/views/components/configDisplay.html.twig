@@ -1,0 +1,60 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <a data-toggle="collapse" href="#panel-display">
+                Paramètres d'affichage
+            </a>
+        </h3>
+
+    </div>
+    <div id="panel-display" class="panel-body collapse">
+        <input type="hidden" id="formType"  value="configDisplay" name="formType" />
+        <div class="form-group row">
+            <label class="control-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                {{ 'unamur_cobra_config_form_show_media_player' | trans({}, 'unamur_cobra') }}
+            </label>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">{{ form_widget(formDisplay.show_media_player) }}</div>
+        </div>
+        <div class="form-group row">
+            <label class="control-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                {{ 'unamur_cobra_config_form_display_inflected_forms' | trans({}, 'unamur_cobra') }}
+            </label>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"> {{ form_widget(formDisplay.display_inflected_forms) }}</div>
+        </div>
+        <div class="form-group row">
+            <label class="control-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                {{ 'unamur_cobra_config_form_translations_display_mode' | trans({}, 'unamur_cobra') }}
+            </label>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">{{ form_widget(formDisplay.translations_display_mode) }}</div>
+        </div>
+        <div class="form-group row">
+            <label class="control-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                {{ 'unamur_cobra_config_form_descriptions_display_mode' | trans({}, 'unamur_cobra') }}
+            </label>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">{{ form_widget(formDisplay.descriptions_display_mode) }}</div>
+        </div>
+        <div class="form-group row">
+            <label class="control-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                {{ 'unamur_cobra_config_form_examples_display_mode' | trans({}, 'unamur_cobra') }}
+            </label>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">{{ form_widget(formDisplay.examples_display_mode) }}</div>
+        </div>
+        <div class="form-group row">
+            <label class="control-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                {{ 'unamur_cobra_config_form_display_occurrences' | trans({}, 'unamur_cobra') }}
+            </label>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"> {{ form_widget(formDisplay.display_occurrences) }}</div>
+        </div>
+        <div class="form-group row">
+            <label class="control-label col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                {{ 'unamur_cobra_config_form_display_illustrations' | trans({}, 'unamur_cobra') }}
+            </label>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"> {{ form_widget(formDisplay.display_illustrations) }}</div>
+        </div>
+        <div class="text-center">
+            <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'cancel' | trans({}, 'platform') }}</button>
+            <button type="submit" class="btn btn-primary">{{ 'ok' | trans({}, 'platform') }}</button>
+        </div>
+    </div>
+    {{ form_rest(formDisplay) }}
+</div>

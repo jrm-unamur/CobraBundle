@@ -2,11 +2,12 @@
 
 namespace Unamur\CobraBundle\Controller;
 
+use Unamur\CobraBundle\Form\CobraConfigDisplayType;
 use Unamur\CobraBundle\Manager\CobraViewerManager;
 use Unamur\CobraBundle\Entity\CobraViewer;
 use Unamur\CobraBundle\Entity\CobraCollection;
 use Unamur\CobraBundle\Entity\CobraText;
-use Unamur\CobraBundle\Form\CobraConfigType;
+use Unamur\CobraBundle\Form\CobraConfigMainType;
 use Unamur\CobraBundle\Lib\ElexRemoteService;
 
 use Claroline\CoreBundle\Library\Resource\ResourceCollection;
@@ -290,16 +291,19 @@ class CobraViewerController extends Controller
         $registeredCollections = $this->cobraManager->getRegisteredCollectionsOfViewer($cobraViewer);
         $unregisteredCollections = $this->cobraManager->getUnregisteredCollectionsForViewer($cobraViewer);
         $cobraViewer->initCorpusList();
-        $corpusArray = $cobraViewer->getCorpusDisplayOrder();
-        $form = $this->formFactory->create(new CobraConfigType(), $cobraViewer);
+        $mainForm = $this->formFactory->create(new CobraConfigMainType(), $cobraViewer);
+        $displayForm = $this->formFactory->create(new CobraConfigDisplayType(), $cobraViewer);
+        $corpusForm = $this->getCorpusForm($cobraViewer);
 
         return array(
-            'form' => $form->createView(),
+            'form' => $mainForm->createView(),
+            'formDisplay' => $displayForm->createView(),
+            'formCorpus' => $corpusForm->createView(),
             '_resource' => $cobraViewer,
             'regCollections' => $registeredCollections,
             //'unregCollections' => array(),
-            'unregCollections' => $unregisteredCollections,
-            'corpus' => $corpusArray
+            'unregCollections' => $unregisteredCollections/*,
+            'corpus' => $corpusArray*/
 
         );
     }
@@ -312,26 +316,41 @@ class CobraViewerController extends Controller
     public function configureViewerAction(Request $request, CobraViewer $cobraViewer)
     {
         $this->checkAccess('EDIT', $cobraViewer);
+        $formType = $request->request->getAlpha('formType');
+        //var_dump($request->request);die();
+        $mainForm = $this->formFactory->create(new CobraConfigMainType(), $cobraViewer);
+        $displayForm = $this->formFactory->create(new CobraConfigDisplayType(), $cobraViewer);
+        $corpusForm = $this->getCorpusForm($cobraViewer);
+        if('configMain' == $formType)
+        {
+            $formToProcess = $mainForm;
+        }
+        elseif('configDisplay' == $formType)
+        {
+            $formToProcess = $displayForm;
+        }
+        elseif('configCorpus' == $formType)
+        {
+            $formToProcess = $corpusForm;
+        }
 
-        $form = $this->formFactory->create(new CobraConfigType(), $cobraViewer);
-
-        $form->handleRequest($request);
+        $formToProcess->handleRequest($request);
 
         if ("POST" === $request->getMethod())
         {
-            if ($form->isValid())
+            if ($formToProcess->isValid())
             {
                 $entityManager = $this->getDoctrine()->getManager();
                 try
                 {
-                    $cobraViewer->getResourceNode()->setName($cobraViewer->getName());
+                    if('configMain' == $formType ) $cobraViewer->getResourceNode()->setName($cobraViewer->getName());
                     $entityManager->flush();
                     $this->session->getFlashBag()->add('success', $this->translator->trans('unamur_cobra_viewer_configure_success', array(), 'unamur_cobra'));
                 } catch (\Exception $exception) {
                     $this->session->getFlashBag()->add('error', $this->translator->trans('unamur_cobra_viewer_configure_error', array(), 'unamur_cobra'));
                 }
 
-                return $this->redirect($this->generateUrl('unamur_cobra_collection_list', array('cobraViewerId' => $cobraViewer->getId())));
+                //return $this->redirect($this->generateUrl('unamur_cobra_collection_list', array('cobraViewerId' => $cobraViewer->getId())));
             }
             else
             {
@@ -346,7 +365,9 @@ class CobraViewerController extends Controller
 
         return array(
             '_resource'  => $cobraViewer,
-            'form'       => $form->createView(),
+            'form'       => $mainForm->createView(),
+            'formDisplay' => $displayForm->createView(),
+            'formCorpus' => $corpusForm->c()
         );
     }
 
@@ -372,5 +393,31 @@ class CobraViewerController extends Controller
         if (!$this->securityContext->isGranted($permission, $collection)) {
             throw new AccessDeniedException($collection->getErrorsForDisplay());
         }
+    }
+
+    private function getCorpusForm(CobraViewer $viewer)
+    {
+        $corpusDisplayOrder = $viewer->getCorpusDisplayOrder();
+        $form = $this->createFormBuilder();
+        $orderList = array(0 => '');
+        for ( $i = 1; $i <= sizeof($corpusDisplayOrder); $i++)
+        {
+            $orderList[$i] = $i;
+        }
+        //var_dump(sizeof($corpusDisplayOrder));
+        foreach($corpusDisplayOrder as $corpus)
+        {
+            $form->add($corpus['id'], 'checkbox')->get($corpus['id'])->setData($corpus['selected']);
+            /*$form->add('ordre' . $corpus['id'], 'choice', array(
+                'choices' => array(
+                    1 =>'1',2=>'2'),
+                'data'=>2)
+            );*/
+            $form->add('ordre' . $corpus['id'],'choice', array('choices' => $orderList,'data' => $corpus['position']));
+
+
+        }
+
+        return $form->getForm();
     }
 }

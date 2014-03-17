@@ -128,7 +128,7 @@ class CobraViewer extends AbstractResource
     public function initCorpusList()
     {
         $corpusList = array();
-        $corpusList[] = array('id' => '1', 'name' => 'Edités par UNamur', 'class' => 'usuel_unamur', 'selected' => false, 'position' => 0);
+        $corpusList[] = array('id' => '1', 'name' => 'Edités par UNamur', 'class' => 'usuel_unamur', 'selected' => true, 'position' => 1);
         $corpusList[] = array('id' => '11', 'name' => 'Langue usuelle', 'class' => 'usuel', 'selected' => false, 'position' => 0);
         $corpusList[] = array('id' => '21', 'name' => 'Politique', 'class' => 'semi-technique', 'selected' => false, 'position' => 0);
         if($this->language == 'NL')

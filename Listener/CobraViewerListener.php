@@ -10,7 +10,7 @@ namespace Unamur\CobraBundle\Listener;
 
 use Unamur\CobraBundle\Entity\CobraViewer;
 use Unamur\CobraBundle\Form\CobraViewerType;
-use Unamur\CobraBundle\Form\CobraConfigType;
+use Unamur\CobraBundle\Form\CobraConfigMainType;
 use Claroline\CoreBundle\Event\CreateFormResourceEvent;
 use Claroline\CoreBundle\Event\CreateResourceEvent;
 use Claroline\CoreBundle\Event\DeleteResourceEvent;
